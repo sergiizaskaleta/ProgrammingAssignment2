@@ -1,0 +1,17 @@
+{
+    "contents" : "## Put comments here that give an overall description of what your\n## functions do\n##----------------------------------------------------------------\n## These two functions makeCacheMatrix and cacheSolve deal with an\n## object that can cache the result of a previously completed\n## computation, particularly - taking the inverse of a matrix.\n## makeCacheMatrix is used to create such an object, and cacheSolve\n## is used to calculate (or retrieve saved result) the inverse of\n## this matrix.\n##----------------------------------------------------------------\n## Sample usage:\n## > c=rbind(c(1, -1/4), c(-1/4, 1))\n## > myMatrix <- makeCacheMatrix(c)\n## > myMatrix$get()\n## > cacheSolve(myMatrix)\n## > cacheSolve(myMatrix) # <~ 2nd call will message \"getting cached...\"\n\n## Write a short comment describing this function\n## ----------------------------------------------\n## makeCacheMatrix creates an `object` with four `methods` for working with\n## a matrix and its inverse. You can store values with set(y) and\n## setinverse(inverse) methods and retrieve stored values with get() and\n## getinverse() methods\n\nmakeCacheMatrix <- function(x = matrix()) {\n  inv <- NULL\n  \n  set <- function(y) {\n    # saves the new value of the matrix and unsets\n    # the variable storing the inverse matrix\n    x <<- y\n    inv <<- NULL\n  }\n  \n  get <- function() {\n    # returns saved value of the matrix\n    x\n  }\n  \n  setinverse <- function(inverse) {\n    # saves the value of the inverse matrix\n    inv <<- inverse\n  }\n  \n  getinverse <- function() {\n    # returns saved value of the inverse matrix\n    inv\n  }\n  \n  # return the list of described methods\n  list(set = set,\n       get = get,\n       setinverse = setinverse,\n       getinverse = getinverse)\n\n}\n\n## Write a short comment describing this function\n## ----------------------------------------------\n## cacheSolve attempts to retrieve the inverse of the \"special\" matrix\n## (object) if it is already stored and return it. In case it was not\n## previously calculated, the function will calculate the inverse,\n## store its value for possible future use and then return it\n\ncacheSolve <- function(x, ...) {\n        ## Return a matrix that is the inverse of 'x'\n  \n  # retrieve stored value of the inverse matrix\n  inv <- x$getinverse()\n  \n  # if such value exists\n  if(!is.null(inv)) {\n    message(\"getting cached inverse matrix\")\n    return(inv)\n  }\n  \n  # no inverse saved ~> need to calculate it\n  # retrieve the matrix itself and then invert it\n  m <- x$get()\n  inv <- solve(m) # solve(m) is a function in base R that return the inverse\n                  # of a square matrix m\n  \n  # save the calculated inverse\n  x$setinverse(inv)\n  \n  # return the calculated inverse\n  inv\n  \n}\n",
+    "created" : 1434566408168.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3612260595",
+    "id" : "DCD7D396",
+    "lastKnownWriteTime" : 1434569470,
+    "path" : "~/GitHub/ProgrammingAssignment2/cachematrix.R",
+    "project_path" : "cachematrix.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
